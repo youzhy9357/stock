@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票損益預估計算機</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="calculator-container">
+            <h1>股票損益預估計算機</h1>
+            <p>根據買入價格，預估正負5檔的損益</p>
+
+            <div class="input-group">
+                <label for="buyPrice">買進價格 ($):</label>
+                <input type="number" id="buyPrice" placeholder="輸入買進價格" value="100">
+            </div>
+            <div class="input-group">
+                <label for="shares">交易股數:</label>
+                <input type="number" id="shares" placeholder="輸入交易股數 (如 1000)" value="1000">
+            </div>
+            <div class="input-group">
+                <label for="feeRate">手續費率 (%):</label>
+                <input type="number" id="feeRate" value="0.1425" step="0.0001">
+            </div>
+            <div class="input-group">
+                <label for="tradeType">交易類型:</label>
+                <select id="tradeType">
+                    <option value="dayTrade">當沖交易 (0.15%)</option>
+                    <option value="overnight">隔日/一般交易 (0.3%)</option>
+                </select>
+            </div>
+            
+            <button id="calculateBtn">計算預估損益</button>
+        </div>
+        
+        <div class="results">
+            <h2>預估損益結果</h2>
+            
+            <div class="results-flex-container">
+                <div id="profitResults">
+                    <div class="header-with-btn">
+                        <h3>獲利</h3>
+                        <button id="showMoreProfitBtn" class="show-more-btn" style="display: none;">+5檔</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>賣出價格</th>
+                                <th>損益</th>
+                            </tr>
+                        </thead>
+                        <tbody id="profitTableBody">
+                            </tbody>
+                    </table>
+                </div>
+
+                <div id="lossResults">
+                    <div class="header-with-btn">
+                        <h3>虧損</h3>
+                        <button id="showMoreLossBtn" class="show-more-btn" style="display: none;">-5檔</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>賣出價格</th>
+                                <th>損益</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lossTableBody">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
