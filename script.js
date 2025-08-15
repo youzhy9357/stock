@@ -92,12 +92,12 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     document.getElementById('lossTableBody').innerHTML = '';
 
     // 獲利結果：賣出價格由大到小
-    currentProfitIndex = centralTickIndex + 5;
-    renderTableRows('profitTableBody', centralTickIndex + 1, currentProfitIndex, false, true);
+    currentProfitIndex = centralTickIndex + 4; // 初始只顯示5筆
+    renderTableRows('profitTableBody', centralTickIndex, currentProfitIndex, false, true);
 
     // 虧損結果：賣出價格由小到大
     currentLossIndex = centralTickIndex - 5;
-    renderTableRows('lossTableBody', currentLossIndex, centralTickIndex, false, false);
+    renderTableRows('lossTableBody', currentLossIndex, centralTickIndex - 1, false, false);
 
     document.getElementById('showMoreProfitBtn').style.display = 'inline';
     document.getElementById('showMoreLossBtn').style.display = 'inline';
