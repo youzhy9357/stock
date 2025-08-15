@@ -63,7 +63,7 @@ h3 {
     margin-top: 0;
     margin-bottom: 0;
     color: #2c3e50;
-    text-align: left; /* 標題靠左對齊 */
+    text-align: left;
 }
 
 p {
@@ -71,7 +71,6 @@ p {
     margin-bottom: 25px;
 }
 
-/* 新增樣式來實現標題與按鈕並排 */
 .header-with-btn {
     display: flex;
     justify-content: space-between;
@@ -150,18 +149,20 @@ tbody tr:nth-child(even) {
     background-color: #f9fbfd;
 }
 
+/* 獲利數字顯示為紅色 */
 .profit {
+    color: #c0392b; 
+    font-weight: bold;
+}
+
+/* 虧損數字顯示為綠色 */
+.loss {
     color: #27ae60;
     font-weight: bold;
 }
 
-.loss {
-    color: #c0392b;
-    font-weight: bold;
-}
-
 .show-more-btn {
-    width: 60px; /* 調整按鈕寬度 */
+    width: 60px;
     padding: 5px;
     background-color: #f1f1f1;
     color: #555;
