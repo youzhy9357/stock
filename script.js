@@ -24,7 +24,7 @@ function calculateAndRender(sellPrice) {
     return {
         sellPrice: sellPrice.toFixed(2),
         profit: profit.toFixed(2),
-        profitClass: profit > 0 ? 'profit' : profit < 0 ? 'loss' : ''
+        profitClass: profit >= 0 ? 'profit' : 'loss'
     };
 }
 
@@ -32,7 +32,6 @@ function renderTableRows(tableId, startIndex, endIndex, prepend = false, reverse
     const tableBody = document.getElementById(tableId);
     let htmlRows = '';
     
-    // 獲利價格由大到小，虧損價格由小到大
     if (reverseOrder) {
         for (let i = endIndex; i >= startIndex; i--) {
             const sellPrice = buyPrice + (i * tick);
@@ -53,7 +52,6 @@ function renderTableRows(tableId, startIndex, endIndex, prepend = false, reverse
         tableBody.innerHTML += htmlRows;
     }
     
-    // 重新為奇偶行設定背景色
     const rows = tableBody.querySelectorAll('tr');
     rows.forEach((row, index) => {
         if (index % 2 === 0) {
@@ -86,18 +84,26 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const buyFee = Math.max(20, buyCost * feeRate);
     const breakEvenPrice = (buyCost + buyFee) / (shares - (shares * feeRate) - (shares * taxRate));
     
-    const centralTickIndex = Math.round((breakEvenPrice - buyPrice) / tick);
+    let centralTickIndex = Math.round((breakEvenPrice - buyPrice) / tick);
+
+    // 尋找第一筆獲利或損益為0的起始點
+    let firstProfitIndex = centralTickIndex;
+    let profitResult = calculateAndRender(buyPrice + (firstProfitIndex * tick));
+    while (profitResult.profit < 0) {
+        firstProfitIndex++;
+        profitResult = calculateAndRender(buyPrice + (firstProfitIndex * tick));
+    }
 
     document.getElementById('profitTableBody').innerHTML = '';
     document.getElementById('lossTableBody').innerHTML = '';
 
     // 獲利結果：賣出價格由大到小
-    currentProfitIndex = centralTickIndex + 4; // 初始只顯示5筆
-    renderTableRows('profitTableBody', centralTickIndex, currentProfitIndex, false, true);
+    currentProfitIndex = firstProfitIndex + 4;
+    renderTableRows('profitTableBody', firstProfitIndex, currentProfitIndex, false, true);
 
     // 虧損結果：賣出價格由小到大
-    currentLossIndex = centralTickIndex - 5;
-    renderTableRows('lossTableBody', currentLossIndex, centralTickIndex - 1, false, false);
+    currentLossIndex = firstProfitIndex - 5;
+    renderTableRows('lossTableBody', currentLossIndex, firstProfitIndex - 1, false, false);
 
     document.getElementById('showMoreProfitBtn').style.display = 'inline';
     document.getElementById('showMoreLossBtn').style.display = 'inline';
